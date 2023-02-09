@@ -1,0 +1,202 @@
+
+
+
+<div class="row">
+  <div class="col-md-8 mb-4">
+    <div class="card mb-4">
+      <div class="card-header py-3">
+        <h5 class="mb-0">Billing details</h5>
+      </div>
+      <div class="card-body">
+         <form action="/place-order" method="post"  id="checkout-form"> 
+          <!-- 2 column grid layout with text inputs for the first and last names -->
+          
+              <div class="form-outline mb-4">
+                <input type="text" id="form7Example2" name="Name" value="{{userDetails.Name}}" class="form-control" />
+                 <input type="text" name="userId" id="" value="{{user._id}}" hidden >
+                <label class="form-label" name="Name" for="form7Example2">Fullname</label>
+              </div>
+            
+         
+
+          
+
+          <!-- Text input -->
+          <div class="form-outline mb-4">
+            <input type="text" id="form7Example4" name="Address" value="{{userDetails.Address}}" class="form-control" />
+            <label class="form-label" for="form7Example4">Address</label>
+          </div>
+
+          <!-- Text input -->
+          <div class="form-outline mb-4">
+            <input type="text" id="form7Example3" name="Pincode" value="{{userDetails.Pincode}}" class="form-control" />
+            <label class="form-label" for="form7Example3">Pincode</label>
+          </div>
+
+       
+          <!-- Number input -->
+          <div class="form-outline mb-4">
+            <input type="number" id="form7Example6" name="Mobile" value="{{userDetails.Mobile}}" class="form-control" />
+            <label class="form-label" for="form7Example6">Phone</label>
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card mb-4">
+      <div class="card-header py-3">
+        <h5 class="mb-0">Summary</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+            Products
+            <span>{{total}}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            Shipping
+            <span>Free</span>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+            <div>
+              <strong>Total amount</strong>
+              <strong>
+                <p class="mb-0">(including VAT)</p>
+              </strong>
+            </div>
+            <span><strong>{{total}}</strong></span>
+          </li>
+        </ul>
+ <div class="payment">
+                <p>Payment method</p>
+                <label class="radio-inline">
+                    <input type="radio" name="payment-method" value="COD" checked>COD
+                </label>
+                <label class="radio-inline mt-2">
+                    <input type="radio" name="payment-method" value="ONLINE" >ONLINE PAYMENT
+                </label>
+               
+
+            </div>
+
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">
+          Make purchase
+        </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    $("#checkout-form").submit((e)=>{
+       e.preventDefault()
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$('#checkout-form').serialize(),
+            success:(Response,data)=>{
+                
+                if(Response.cod_success){
+                    location.href='/ordered-response?id=cod'
+                }
+                else{
+                  console.log('its hereeeeeee')
+                  
+                    razorpayPayment(Response)
+                }
+            }
+        })
+    })
+
+
+    function razorpayPayment (order){
+        var options = {
+    "key": "rzp_test_Uakhyu7rd2ie3B", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "MohammedYaseen",
+    "description": "Test Transaction",
+    "image": "LOGO/payment-logo.jpg",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+       // alert(response.razorpay_payment_id);
+       // alert(response.razorpay_order_id);
+       // alert(response.razorpay_signature)
+
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": order.user.Name ,
+        "email":  order.user.Email,
+        "contact": order.user.Mobile
+    },
+    "notes": {
+        "address": " order.user.Address"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    }
+    function verifyPayment(payment,order){
+        $.ajax({
+            url:'/verify-payment',
+            data:{
+                payment,
+                order
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.status){
+                    location.href='/ordered-response'
+                }else{
+                    alert('payment failed')
+                }
+            }
+        })
+    }
+</script>
+
+
+<style>
+    input[type=radio]{
+        width: 20px;
+        height: 20px;
+    }
+    label.radio-inline{
+        display: flex;
+        align-items: center;
+    }
+    .checkout{
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 30px;
+    }
+    .payment{
+        padding-bottom: 16px;
+    }
+</style>

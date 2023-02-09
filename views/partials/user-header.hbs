@@ -1,0 +1,149 @@
+ <div class="nav-main">
+ {{#if index}}
+ <div class="header-to-bar "> HELLO EVERYONE! 25% Off All Products </div>
+ {{/if}}
+
+<!--new header-->
+
+<!-- Navbar -->
+<nav class="navbar navbar-user navbar-expand-lg navbar-light bg-light" style=" border-bottom: 2px solid rgb(236, 235, 235);">
+
+  
+  <!-- Container wrapper -->
+  <div class="container">
+    
+   
+
+    <!-- Collapsible wrapper -->
+    
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0" href="/">
+        <img
+          src="LOGO/lbb2.png"
+          height="25"
+          alt=""
+          loading="lazy"
+        />
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+
+         <div class="dropdown">
+  <button class="dropbtn nav-link bg-light">Products <i class="fas fa-sort-down"></i></button>
+  <div class="dropdown-content">
+    <a  href="/products-list?id=lap">Laptops</a>
+    <a href="/products-list?id=phone">Mobiles</a>
+    <a  href="/products-list?id=accessory">Accessories</a>
+  </div>
+</div>
+
+        </li>
+        <li class="nav-item">
+             <a class="nav-link " href="/wishlist">Wishlist </a>
+          
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">Orders</a>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+
+    <!-- Right elements -->
+    <div class="d-flex align-items-center">
+      <!-- Icon -->
+      
+      <a class="text-reset me-3" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"   href="/cart">
+    
+        <i class="fas fa-shopping-cart"> <span class="badge badge-pill badge-primary" id="cart-count" >{{cartCount}}</span></i>
+      </a>
+
+
+
+
+      <!-- wishlist -->
+       <a class="text-reset " style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" href="/wishlist">
+         
+        <i class="fas fa-heart"> </i>
+      </a>
+
+              
+
+              {{#if user}}
+
+<a href="/user-profile" >
+<img src="user-image/{{user._id}}.jpg"
+          class="rounded-circle ml-3"
+          height="25"
+          alt=""
+          
+          loading="lazy"
+        /> 
+              </a>
+
+
+               
+          {{else}}
+               <i class="fas fa-user rounded-circle ml-3"
+          height="25"
+          alt=""
+          loading="lazy"></i>
+{{/if}}
+          <div class="dropdown ml-3 ">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" style="font-size: small;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{#if user}}
+      {{user.fname}}
+      {{else}}
+       Account
+      {{/if}}
+   
+  </button>
+  
+  <div class="dropdown-menu dropdown-menubar" aria-labelledby="dropdownMenuButton">
+    {{#if user}}
+    <a class="dropdown-item" href="/user-profile">Profile</a>
+    <a class="dropdown-item" href="/orders">Orders</a>
+     
+    <a class="dropdown-item " href="/logout">Logout</a>
+    {{else}}
+    <a class="dropdown-item" href="/login">Login</a>
+    <a class="dropdown-item" href="/signup">Signup</a>
+
+  {{/if}}
+   <!--<a class="nav-link" data-toggle="modal" data-target="#exampleModal"> Logout</a>
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+-->
+      
+    <!-- Right elements -->
+
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+
+
+</div>
